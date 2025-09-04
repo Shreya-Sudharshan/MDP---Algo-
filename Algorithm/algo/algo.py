@@ -110,11 +110,8 @@ class MazeSolver:
         distance = 1e9
         optimal_path = []
 
-        #print(f"Inside get_optimal_order_dp: retrying = {retrying}")
         # Get all possible positions that can view the obstacles
         all_view_positions = self.grid.get_view_obstacle_positions(retrying)
-        #print(f"all_view_positions: {all_view_positions}")
-        #print(f"All view position: {all_view_positions}")
 
         for op in self.get_visit_options(len(all_view_positions)):
             # op is binary string of length len(all_view_positions) == len(obstacles)
@@ -135,7 +132,7 @@ class MazeSolver:
                 # If robot is visiting
                 if op[idx] == '1':
                     # Add possible cells to `items`
-                    items = items + all_view_positions[idx]
+                    items += all_view_positions[idx]
                     # Add possible cells to `cur_view_positions`
                     cur_view_positions.append(all_view_positions[idx])
                     #print("obstacle: {}\n".format(self.grid.obstacles[idx]))
@@ -168,8 +165,6 @@ class MazeSolver:
                         cost_np[e][s] = cost_np[s][e]
                 cost_np[:, 0] = 0
                 _permutation, _distance = solve_tsp_dynamic_programming(cost_np)
-                # print(f"fixed_cost = {fixed_cost}")
-                # print(f"distance = {_distance}")
                 if _distance + fixed_cost >= distance:
                     continue
 
