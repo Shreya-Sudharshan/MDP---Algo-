@@ -51,7 +51,7 @@ export default class BaseAPI {
 					console.log(err)
 					if (err instanceof CustomError) {
 
-						// best effort to capture all cases of err handling
+						// handles all errors 
 						let errStr = await err.content.json()
 							.then(res => {
 								if (res.errors) {

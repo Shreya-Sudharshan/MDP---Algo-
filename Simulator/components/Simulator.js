@@ -27,7 +27,7 @@ const DirectionToString = {
 };
 
 const transformCoord = (x, y) => {
-  // Change the coordinate system from (0, 0) at top left to (0, 0) at bottom left
+  // Changes the coordinate system from (0, 0) at top left to (0, 0) at bottom left
   return { x: 19 - y, y: x };
 };
 
@@ -85,11 +85,9 @@ export default function Simulator() {
       markerX--;
     }
 
-    // Go from i = -1 to i = 1
     for (let i = -1; i < 2; i++) {
-      // Go from j = -1 to j = 1
       for (let j = -1; j < 2; j++) {
-        // Transform the coordinates to our coordinate system where (0, 0) is at the bottom left
+        // Transform the coordinates to our customised coordinate system where (0, 0) is at the bottom left
         const coord = transformCoord(robotState.x + i, robotState.y + j);
         // If the cell is the marker cell, add the robot state to the cell
         if (markerX === i && markerY === j) {
@@ -122,7 +120,6 @@ export default function Simulator() {
         return;
       }
     }
-    // If the input is not an integer or is not in the range [0, 19], set the input to 0
     setObXInput(0);
   };
 
@@ -135,7 +132,6 @@ export default function Simulator() {
         return;
       }
     }
-    // If the input is not an integer or is not in the range [0, 19], set the input to 0
     setObYInput(0);
   };
 
@@ -148,7 +144,7 @@ export default function Simulator() {
         return;
       }
     }
-    // If the input is not an integer or is not in the range [1, 18], set the input to 1
+
     setRobotX(1);
   };
 
@@ -161,7 +157,7 @@ export default function Simulator() {
         return;
       }
     }
-    // If the input is not an integer or is not in the range [1, 18], set the input to 1
+
     setRobotY(1);
   };
 
@@ -170,7 +166,7 @@ export default function Simulator() {
     if (!obXInput && !obYInput) return;
     // Create a new array of obstacles
     const newObstacles = [...obstacles];
-    // Add the new obstacle to the array
+    // Adding new obstacles 
     newObstacles.push({
       x: obXInput,
       y: obYInput,
@@ -200,26 +196,23 @@ export default function Simulator() {
   const onRemoveObstacle = (ob) => {
     // If the path is not empty or the algorithm is computing, return
     if (path.length > 0 || isComputing) return;
-    // Create a new array of obstacles
     const newObstacles = [];
     // Add all the obstacles except the one to remove to the new array
     for (const o of obstacles) {
       if (o.x === ob.x && o.y === ob.y) continue;
       newObstacles.push(o);
     }
-    // Set the obstacles to the new array
     setObstacles(newObstacles);
   };
 
   const compute = () => {
-    // Set computing to true, act like a lock
     setIsComputing(true);
     // Call the query function from the API
     QueryAPI.query(obstacles, robotX, robotY, robotDir, (data, err) => {
       if (data) {
-        // If the data is valid, set the path
+        // setting path for valid inputs 
         setPath(data.data.path);
-        // Set the commands
+        // Setting commands 
         const commands = [];
         for (let x of data.data.commands) {
           // If the command is a snapshot, skip it
@@ -230,7 +223,7 @@ export default function Simulator() {
         }
         setCommands(commands);
       }
-      // Set computing to false, release the lock
+      // Set computing to false and release the lock 
       setIsComputing(false);
     });
   };

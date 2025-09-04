@@ -1,13 +1,13 @@
 import BaseAPI, { methodType } from "./BaseAPI";
 
 export default class QueryAPI extends BaseAPI {
-  // Query the path from backend server
+  // Querying backend server 
   static query(obstacles, robotX, robotY, robotDir, callback) {
-    /* Construct the content of the request 
+    /* 
 		obstacles: the array of obstacles
-		robotX: the x coordinate of the robot
-		robotY: the y coordinate of the robot
-		robotDir: the direction of the robot
+		robot_x: the x coordinate of the robot
+		robot_y: the y coordinate of the robot
+		robot_dir: the direction of the robot
 		retrying: whether the robot is retrying
 	*/
     const content = {
@@ -18,7 +18,7 @@ export default class QueryAPI extends BaseAPI {
       retrying: false,
     };
 
-    // Send the request to the backend server
+    
     this.JSONRequest("/path", methodType.post, {}, {}, content)
       .then((res) => {
         if (callback) {
